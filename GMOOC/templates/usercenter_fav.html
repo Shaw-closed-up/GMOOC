@@ -1,0 +1,278 @@
+{% extends 'usercenter_base.html' %}
+{% load staticfiles %}
+{% block title %}我的收藏- 慕学在线网{% endblock %}
+
+{% block bread %}
+<section>
+        <div class="wp">
+            <ul  class="crumbs">
+                <li><a href="{% url 'index' %}">首页</a>></li>
+                <li><a href="{% url 'user_info:user_info' %}">个人中心</a>></li>
+                <li>我的收藏</li>
+            </ul>
+        </div>
+    </section>
+{% endblock %}
+
+
+{% block custom_css %}
+    <link rel="stylesheet" type="text/css" href="{% static 'css/reset.css' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'css/animate.css' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'js/plugins/queryCity/css/cityLayout.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/lq.datetimepick.css' %}"/>
+    <link rel="stylesheet" type="text/css" href="{% static 'css/lq.datetimepick.css' %}"/>
+
+    <script src="{% static 'js/jquery.min.js' %}" type="text/javascript"></script>
+    <script src="{% static 'js/jquery-migrate-1.2.1.min.js' %}" type="text/javascript"></script>
+
+{% endblock %}
+
+{% block content_right %}
+        <div class="right" >
+            <div class="personal_des Releasecont">
+                <div class="head">
+                    <h1>我的收藏</h1>
+                </div>
+
+            </div>
+            <div class="personal_des permessage">
+                <div class="head">
+                    <ul class="tab_header messagehead">
+                        <li {% if request.path|slice:'40' == '/user_center/my_fav/?choice=organization' %}class="active"{% endif %}><a href="{% url 'user_info:my_fav' %}?choice=organization">课程机构</a> </li>
+                        <li {% if request.path|slice:'35' == '/user_center/my_fav/?choice=teacher' %}class="active"{% endif %}><a href="{% url 'user_info:my_fav' %}?choice=teacher">授课教师 </a></li>
+                        <li {% if request.path|slice:'34' == '/user_center/my_fav/?choice=course' %}class="active"{% endif %}><a href="{% url 'user_info:my_fav' %}?choice=course">公开课程</a></li>
+                    </ul>
+                </div>
+                {# 机构 #}
+                {% if choice == 'organization' %}
+                    {% for f in  fav %}
+                        <div class="messagelist">
+
+                    <div class="messages butler_list company company-fav-box">
+                        <dl class="des fr">
+                            <dt>
+                                <a href="org-detail-homepage.html">
+                                    <img width="160" height="90" src="{{ MEDIA_URL }}{{ f.OrganizationImage }}"/>
+                                </a>
+                            </dt>
+                            <dd>
+                                <h1><a href="org-detail-homepage.html">{{ f.Organization }}</a></h1>
+                                <div class="pic fl" style="width:auto;">
+
+                                    <img src="{% static 'images/authentication.png' %}"/>
+
+
+                                    <img src="{% static 'images/gold.png' %}"/>
+
+                                </div>
+                                <span class="c8 clear">{{ f.City }}</span>
+                                <div class="delete jsDeleteFav_org" data-favid="1"></div>
+                            </dd>
+                        </dl>
+                    </div>
+
+                </div>
+                    {% endfor %}
+                {% endif %}
+
+                {# 老师 #}
+                {% if choice == 'teacher' %}
+                    {% for f in  fav %}
+                <div class="messagelist">
+
+                    <div class=" butler_list butler-fav-box">
+                        <dl class="des users">
+                            <dt>
+                                <a href="/org/teacher/detail/1/">
+                                    <img width="100" height="100" src="{{ MEDIA_URL }}{{ f.TeacherImage }}"/>
+                                </a>
+                            </dt>
+                            <dd>
+                                <h1>
+                                    <a href="/org/teacher/detail/1/">
+                                        {{ f.TeacherName }}<span class="key">认证教师</span>
+                                    </a>
+                                </h1>
+                                <ul class="cont clearfix">
+                                    <li class="time">工作年限：<span>{{ f.WorkLife }}年</span></li>
+                                    <li class="c7">课程数：<span>2</span></li>
+                                </ul>
+                                <ul class="cont clearfix">
+                                    <li class="time">工作公司：<span>{{ f.BelongOrganization }}</span></li>
+                                    <li class="c7">公司职位：<span>{{ f.WorkPosition }}</span></li>
+                                </ul>
+                            </dd>
+                            <div class="delete jsDeleteFav_teacher" data-favid="1"></div>
+                        </dl>
+                    </div>
+
+                </div>
+                    {% endfor %}
+                {% endif %}
+
+                {# 公开课程 #}
+                {% if choice == 'course' %}
+                    {% for f in  fav %}
+                <div class="companycenter">
+                    <div class="group_list brief">
+                        <div class="module1_5 box">
+                            <a href="course-detail.html">
+                                <img width="214" height="190" src="{{ MEDIA_URL }}{{ f.CoursePicture }}"/>
+                            </a>
+                            <div class="des">
+                                <a href="course-detail.html"><h2>{{ f.CourseName }}</h2></a>
+                                <span class="fl">时长：<i class="key">{{ f.LearnTime }}</i></span>
+                                <span class="fr">学习人数：{{ f.Students }}</span>
+                            </div>
+                            <div class="bottom">
+                                <span class="fl">{{ f.Organization }}</span>
+                                <span class="delete-group fr jsDeleteFav_course" data-favid="12"></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                    {% endfor %}
+                {% endif %}
+            </div>
+        </div>
+{% endblock %}
+
+
+
+{% block custom_js %}
+<script src=".{% static 'js/selectUi.js' %}" type='text/javascript'></script>
+<script type="text/javascript" src="{% static 'js/plugins/laydate/laydate.js' %}"></script>
+<script src="{% static 'js/plugins/layer/layer.js' %}"></script>
+<script src="{% static 'js/plugins/queryCity/js/public.js' %}" type="text/javascript"></script>
+<script src="{% static 'js/unslider.js' %}" type="text/javascript"></script>
+<script src="{% static 'js/plugins/jquery.scrollLoading.js' %}"  type="text/javascript"></script>
+<script src="{% static 'js/validateDialog.js' %}"  type="text/javascript"></script>
+<script src="{% static 'js/deco-common.js' %}"  type="text/javascript"></script>
+<script src="{% static 'js/plugins/jquery.upload.js' %}" type='text/javascript'></script>
+<script src="{% static 'js/validate.js' %}" type="text/javascript"></script>
+<script src="{% static '/js/deco-user.js' %}"></script>
+<script type="text/javascript">
+    $('.jsDeleteFav_course').on('click', function(){
+        var _this = $(this),
+            favid = _this.attr('data-favid');
+        alert(favid)
+        $.ajax({
+                cache: false,
+                type: "POST",
+                url: "/org/add_fav/",
+                data: {
+                    fav_type: 1,
+                    fav_id: favid,
+                    csrfmiddlewaretoken: '799Y6iPeEDNSGvrTu3noBrO4MBLv6enY'
+                },
+                async: true,
+                success: function(data) {
+                    Dml.fun.winReload();
+                }
+            });
+    });
+
+    $('.jsDeleteFav_teacher').on('click', function(){
+            var _this = $(this),
+                favid = _this.attr('data-favid');
+            $.ajax({
+                    cache: false,
+                    type: "POST",
+                    url: "/org/add_fav/",
+                    data: {
+                        fav_type: 3,
+                        fav_id: favid,
+                        csrfmiddlewaretoken: '799Y6iPeEDNSGvrTu3noBrO4MBLv6enY'
+                    },
+                    async: true,
+                    success: function(data) {
+                        Dml.fun.winReload();
+                    }
+                });
+        });
+
+
+    $('.jsDeleteFav_org').on('click', function(){
+            var _this = $(this),
+                favid = _this.attr('data-favid');
+            $.ajax({
+                    cache: false,
+                    type: "POST",
+                    url: "/org/add_fav/",
+                    data: {
+                        fav_type: 2,
+                        fav_id: favid,
+                        csrfmiddlewaretoken: '799Y6iPeEDNSGvrTu3noBrO4MBLv6enY'
+                    },
+                    async: true,
+                    success: function(data) {
+                        Dml.fun.winReload();
+                    }
+                });
+        });
+</script>
+<script>
+        var shareUrl = '',
+            shareText = '',
+            shareDesc = '',
+            shareComment = '';
+        $(function () {
+            $(".bdsharebuttonbox a").mouseover(function () {
+                var type = $(this).attr('data-cmd'),
+                    $parent = $(this).parent('.bdsharebuttonbox'),
+                    fxurl = $parent.attr('data-url'),
+                    fxtext = $parent.attr('data-text'),
+                    fxdesc = $parent.attr('data-desc'),
+                    fxcomment = $parent.attr('data-comment');
+                switch (type){
+                    case 'tsina':
+                    case 'tqq':
+                    case 'renren':
+                            shareUrl = fxurl;
+                            shareText = fxdesc;
+                            shareDesc = '';
+                            shareComment = '';
+                        break;
+                    default :
+                            shareUrl = fxurl;
+                            shareText = fxtext;
+                            shareDesc = fxdesc;
+                            shareComment = fxcomment;
+                        break;
+                }
+            });
+        });
+        function SetShareUrl(cmd, config) {
+            if (shareUrl) {
+                config.bdUrl = "" + shareUrl;
+            }
+            if(shareText){
+                config.bdText = shareText;
+            }
+            if(shareDesc){
+                config.bdDesc = shareDesc;
+            }
+            if(shareComment){
+                config.bdComment = shareComment;
+            }
+
+            return config;
+        }
+        window._bd_share_config = {
+            "common": {
+                "onBeforeClick":SetShareUrl,
+                "bdPic":"",
+                "bdMini":"2",
+                "searchPic":"1",
+                "bdMiniList":false
+            },
+            "share": {
+                "bdSize":"16"
+            }
+        };
+    with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com../api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];
+</script>
+{% endblock %}
+
+

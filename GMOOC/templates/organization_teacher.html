@@ -1,0 +1,74 @@
+{% extends 'organization_detail_base.html' %}
+
+
+{% block title %}机构讲师{% endblock %}
+{% block bread %}机构讲师{% endblock %}
+
+
+{% block organization %}
+        <div class="middle companyheader">
+        <div class="wp">
+            <img class="fl" style="width: 112px;height: 103px" src="{{ MEDIA_URL }}{{ organization.OrganizationImage }}"/>
+            <div class="head fl">
+                <h1>
+                    {{ organization.Organization }}
+                    <img src="../images/authentication.png"/>
+                    <img src="../images/gold.png"/>
+                </h1>
+                <p class="fl">
+                    <span class="fl" style="margin-top:8px;color:#848484;">推荐指数： </span>
+                    <span class="precision company-credit" data-star-scope="5.0"></span>
+                    <span class="key">5.0</span>
+                </p>
+            </div>
+            <div class="btn fr collectionbtn  notlogin
+                 "data-favid="22" data-fav-type="1">
+                 {% if has_fav %}已收藏{% else %}收藏{% endif %}
+            </div>
+
+        </div>
+    </div>
+{% endblock %}
+
+
+
+{% block left %}
+    		<div class="left">
+			<ul>
+				<li class=""><a href="{% url 'organization:organization_home' organization.id %}">机构首页</a></li>
+                <li class=""><a href="{% url 'organization:organization_course' organization.id %}">机构课程</a></li>
+                <li class=""><a href="{% url 'organization:organization_describe' organization.id %}">机构介绍</a></li>
+                <li class="active2"><a href="{% url 'organization:organization_teacher' organization.id %}">机构讲师</a></li>
+			</ul>
+		</div>
+{% endblock %}
+
+
+{% block detail %}
+
+    <div class="right companycenter layout" >
+    <div class="head">
+        <h1>机构教师</h1>
+        <a class="green fr more" href="org-detail-teachers.html">查看更多  >  </a>
+    </div>
+
+        {% for t in teacher %}
+    <div class="diarys">
+        <div class="module5 share company-diary-box" style="padding:10px 0;">
+            <div class="left">
+                <img class="pic" src="{{ MEDIA_URL }}{{ t.TeacherImage }}"/>
+                <p>昵称：{{ t.TeacherName }}</p>
+            </div>
+            <div class="right">
+                <div class="top">
+                    <div class="fl">
+                        <a href=""><h1>java开发教程</h1></a>
+                        <span>发表于：2015-10-12</span>
+                    </div>
+                </div>
+                <div class="middle" style="border-bottom:0;">课程介绍</div>
+            </div>
+        </div>
+    </div>
+        {% endfor %}
+{% endblock %}
